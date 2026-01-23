@@ -31,10 +31,14 @@ lemlib::Drivetrain drivetrain(&leftMotors, &rightMotors, 11.25,
                               lemlib::Omniwheel::NEW_325, 450, 2);
 
 // Lateral Motion Controller (PID STUFF TO TUNE)
-lemlib::ControllerSettings linearController(5, 0, 10, 0, 1, 100, 3, 500, 0);
+lemlib::ControllerSettings linearController(14, 0, 60, 0,
+   1, 100, 3,
+    500,
+    0);
 
-// Angular Motion Controller (PID STUFF TO TUNE) // changed from 6.5 to 6
-lemlib::ControllerSettings angularController(6.5, 0, 40, 0, 2, 100, 5, 500, 0);
+// Angular Motion Controller (PID STUFF TO TUNE) 
+lemlib::ControllerSettings angularController(5, 0, 45, 0, 1, 100,
+   3, 500, 0);
 
 // ODOMETRY SENSORS (DO NOT TOUCH)
 // Only a single vertical tracking wheel is defined for this robot. If you add
