@@ -255,7 +255,7 @@ void autonomous() {
   intake.move_voltage(0);
   pros::delay(300);
   intake.move_voltage(-9000);
-  pros::delay(1000);
+  pros::delay(1500);
   //move to matchload 
   chassis.moveToPoint(-37,2,3000,{.forwards=true,.maxSpeed=80},false);
   intake.move_voltage(-11000);
@@ -292,7 +292,7 @@ void autonomous() {
   chassis.moveToPoint(-35,60,1800,{.forwards=false,.maxSpeed=60});
   pros::delay(1000);
   hood.move(-11000);
-  pros::delay(2000);  
+  pros::delay(2500);  
   chassis.setPose(-35, 70, 0);
   chassis.moveToPoint(-35,75,1300,{.forwards=false,.maxSpeed=70},false);
   chassis.moveToPoint(-35,70,1300,{.forwards=false,.maxSpeed=70},false);
@@ -311,8 +311,8 @@ void autonomous() {
   pros::delay(1000);
   //cross park
   chassis.moveToPoint(30,110,1000,{.forwards=true},false);
-  chassis.moveToPoint(30,110,1500,{.forwards=true,.maxSpeed=60},false);
-  pros::delay(1000);
+  chassis.moveToPoint(30,110,1800,{.forwards=true,.maxSpeed=60},false);
+  pros::delay(1500);
   //reset on park
   odomUp.set_value(false);
   chassis.setPose(-10,107,90);
@@ -320,6 +320,7 @@ void autonomous() {
   chassis.turnToPoint(-60,115,2000,{.forwards=false,.maxSpeed=80},false);
   chassis.moveToPoint(-60,115,2000,{.forwards=false,.maxSpeed=55},false);
   chassis.setPose(-10,107,90);
+  chassis.moveToPoint(10,110,1500,{.forwards=true,.maxSpeed=60},false);
   //move to midgoal
   chassis.moveToPoint(-5,107,2000,{.forwards=false,.maxSpeed=80},false);
   chassis.turnToPoint(-5,68,1000,{.forwards=true},false);
@@ -331,14 +332,14 @@ void autonomous() {
   pros::delay(500);
   intake.move_voltage(11000);
   pros::delay(200);
-  midgoal.toggle();
+  midgoal.set_value(true);
   intake.move_voltage(0);
   pros::delay(300);
   intake.move_voltage(-9000);
   pros::delay(1000);
   //move to third matchload
-  chassis.turnToPoint(30,75,1000,{.forwards=true});
-  chassis.moveToPoint(30,75,1000,{.forwards=true,.maxSpeed=80},false);
+  chassis.turnToPoint(30,90,1000,{.forwards=true});
+  chassis.moveToPoint(30,90,1000,{.forwards=true,.maxSpeed=80},false);
 
   /*
   intake.move_voltage(11000);
@@ -648,7 +649,7 @@ void opcontrol() {
     } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) &&
                (controller.get_digital_new_press(
                    pros::E_CONTROLLER_DIGITAL_L1))) {
-    
+    descore.toggle();
     } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       midgoal.set_value(true);
       intake.move_voltage(-9000);
