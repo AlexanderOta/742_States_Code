@@ -4,14 +4,15 @@
       "name": "PROS Project",
       "includePath": [
         "${workspaceFolder}/**",
-        "/Users/alexanderota/Documents/742_States_Code/include"
+        "/Users/alexanderota/Documents/742_States_Code/include",
+        "/Users/ellaroh/Documents/VEX Code States/742_States_Code/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/Users/alexanderota/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "compilerPath": "/Users/ellaroh/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
@@ -20,7 +21,7 @@
       ],
       "browse": {
         "path": [
-          "/Users/alexanderota/Documents/742_States_Code"
+          "/Users/ellaroh/Documents/VEX Code States/742_States_Code"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

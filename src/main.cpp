@@ -10,7 +10,7 @@
 
 /* Initialization and Motor Configurations */
 pros::MotorGroup leftMotors({-5, -4, -3}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({6, 7, 8}, pros::MotorGearset::blue);
+pros::MotorGroup rightMotors({6, 7, 9}, pros::MotorGearset::blue);
 pros::Motor intake(1, pros::MotorGearset::blue);
 pros::Motor hood(2, pros::MotorGearset::blue);
 pros::adi::Pneumatics descore('B', false);
@@ -24,7 +24,6 @@ pros::adi::Pneumatics lowgoal('F', false);
 // LEMLIB SPECIFIC CONFIGURATIONS
 pros::Imu imu(10);
 
-pros::Rotation horizontallEnc(9);
 pros::Rotation verticalEnc(16);
 
 // lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_2,
@@ -242,24 +241,23 @@ void autonomous() {
   odomUp.set_value(false);
   chassis.setPose(0, 0, 0);
   pros::delay(500);
-  chassis.moveToPoint(0,13,5000,{.forwards=true,.maxSpeed=80});
+  chassis.moveToPoint(0,13,5000,{.forwards=true,.maxSpeed=80},false);
   chassis.turnToPoint(-12,25,400,{.forwards=true});
   intake.move_voltage(-11000);
-  hood.move_voltage(5000);
-  chassis.moveToPoint(-12,25,1000,{.forwards=true,.maxSpeed=60});
+  chassis.moveToPoint(-12,25,1000,{.forwards=true,.maxSpeed=60},false);
   //move to midgoal
-  chassis.turnToPoint(4,39,1000,{.forwards=false});
-  chassis.moveToPoint(4,39,5000,{.forwards=false,.maxSpeed=40}, true);
+  chassis.turnToPoint(6,41,1000,{.forwards=false});
+  chassis.moveToPoint(6,41,5000,{.forwards=false,.maxSpeed=40}, true);
   pros::delay(500);
   intake.move_voltage(11000);
   pros::delay(200);
   midgoal.toggle();
   intake.move_voltage(0);
   pros::delay(300);
-  intake.move_voltage(-11000);
+  intake.move_voltage(-9000);
   pros::delay(1000);
   //move to matchload 
-  chassis.moveToPoint(-37,2,3000,{.forwards=true,.maxSpeed=80});
+  chassis.moveToPoint(-37,2,3000,{.forwards=true,.maxSpeed=80},false);
   intake.move_voltage(-11000);
   hood.move_voltage(-11000);
   chassis.turnToPoint(-37,-10,1000,{.forwards=true});
@@ -271,58 +269,77 @@ void autonomous() {
   chassis.moveToPoint(-37,-19,2700,{.forwards=true,.maxSpeed=50},false);
   scraper.toggle();
   //move to side of long goal
-  chassis.moveToPoint(-37,1,1000,{.forwards=false,.maxSpeed=85});
+  chassis.moveToPoint(-37,1,1000,{.forwards=false,.maxSpeed=85},false);
   chassis.turnToPoint(-49,1,400,{.forwards=false});
-  chassis.moveToPoint(-49,1,1000,{.forwards=false,.maxSpeed=85});
+  chassis.moveToPoint(-49,1,1000,{.forwards=false,.maxSpeed=85},false);
   chassis.turnToPoint(-49,100,400,{.forwards=false});
-  chassis.moveToPoint(-49,100,10000,{.forwards=false,.maxSpeed=80});
+  chassis.moveToPoint(-49,100,10000,{.forwards=false,.maxSpeed=80},false);
   //align to goal
   chassis.turnToPoint(-35,100,1000,{.forwards=false});
-  chassis.moveToPoint(-35,100,1000,{.forwards=false,.maxSpeed=80});
+  chassis.moveToPoint(-35,100,1000,{.forwards=false,.maxSpeed=80},false);
   chassis.turnToPoint(-35,10,1000,{.forwards=false});
-  chassis.moveToPoint(-35,50,1300,{.forwards=false,.maxSpeed=70},false);
+  chassis.moveToPoint(-35,50,1500,{.forwards=false,.maxSpeed=60},false);
   pros::delay(400);
   hood.move(-11000);
-  pros::delay(1300);  
+  pros::delay(1700);  
+  //push with hood
   chassis.setPose(-35, 70, 0);
-  pros::delay(500);
   scraper.toggle();
   hood.move_voltage(3000);
-  chassis.moveToPoint(-35,100,1000,{.forwards=true,.maxSpeed=80});
-  chassis.moveToPoint(-35,120,2700,{.forwards=true,.maxSpeed=60});
+  chassis.moveToPoint(-35,100,1000,{.forwards=true,.maxSpeed=80},false);
+  chassis.moveToPoint(-35,120,2700,{.forwards=true,.maxSpeed=80},false);
   //score second time
-  chassis.moveToPoint(-35,60,1800,{.forwards=false,.maxSpeed=80});
+  chassis.moveToPoint(-35,60,1800,{.forwards=false,.maxSpeed=60});
   pros::delay(1000);
   hood.move(-11000);
-  pros::delay(1700);  
+  pros::delay(2000);  
+  chassis.setPose(-35, 70, 0);
+  chassis.moveToPoint(-35,75,1300,{.forwards=false,.maxSpeed=70},false);
+  chassis.moveToPoint(-35,70,1300,{.forwards=false,.maxSpeed=70},false);
+  pros::delay(500);
   chassis.setPose(-35, 70, 0);
   pros::delay(500);
   scraper.toggle();
-  chassis.moveToPoint(-35,96,1800,{.forwards=true,.maxSpeed=80});
+  chassis.moveToPoint(-35,96,1800,{.forwards=true,.maxSpeed=80},false);
  //move to park zone
   chassis.turnToPoint(-2,108,1000,{.forwards=true});
   hood.move_voltage(3000);
-  chassis.moveToPoint(-2,108,2700,{.forwards=true,.maxSpeed=80});
+  chassis.moveToPoint(-2,108,2700,{.forwards=true,.maxSpeed=80},false);
   //align to park
-  chassis.turnToPoint(30,115,1000,{.forwards=true});
+  chassis.turnToPoint(30,108,1000,{.forwards=true});
   odomUp.set_value(true);
   pros::delay(1000);
   //cross park
-  chassis.moveToPoint(30,115,2500,{.forwards=true},true);
-  pros::delay(1200);
-  scraper.toggle();
+  chassis.moveToPoint(30,110,1000,{.forwards=true},false);
+  chassis.moveToPoint(30,110,1500,{.forwards=true,.maxSpeed=60},false);
+  pros::delay(1000);
   //reset on park
-  pros::delay(3000);
-  scraper.toggle();
   odomUp.set_value(false);
-  chassis.moveToPoint(-20,108,2000,{.forwards=false,.maxSpeed=45});
-  chassis.setPose(0,107,90);
+  chassis.setPose(-10,107,90);
+  pros::delay(1000);
+  chassis.turnToPoint(-60,115,2000,{.forwards=false,.maxSpeed=80},false);
+  chassis.moveToPoint(-60,115,2000,{.forwards=false,.maxSpeed=55},false);
+  chassis.setPose(-10,107,90);
   //move to midgoal
-  /*
-  chassis.moveToPoint(5,107,2000,{.forwards=true,.maxSpeed=80});
+  chassis.moveToPoint(-5,107,2000,{.forwards=false,.maxSpeed=80},false);
+  chassis.turnToPoint(-5,68,1000,{.forwards=true},false);
+  chassis.moveToPoint(-5,68,2000,{.forwards=true,.maxSpeed=80},true);
   scraper.toggle();
-  chassis.turnToPoint(5,50,700,{.forwards=true});
-*/
+  //align to mid goal
+  chassis.turnToPoint(-15,52,1000,{.forwards=false});
+  chassis.moveToPoint(-15,52,1000,{.forwards=false,.maxSpeed=40}, true);
+  pros::delay(500);
+  intake.move_voltage(11000);
+  pros::delay(200);
+  midgoal.toggle();
+  intake.move_voltage(0);
+  pros::delay(300);
+  intake.move_voltage(-9000);
+  pros::delay(1000);
+  //move to third matchload
+  chassis.turnToPoint(30,75,1000,{.forwards=true});
+  chassis.moveToPoint(30,75,1000,{.forwards=true,.maxSpeed=80},false);
+
   /*
   intake.move_voltage(11000);
   pros::delay(200);
