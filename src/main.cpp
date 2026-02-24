@@ -12,7 +12,7 @@
 pros::MotorGroup leftMotors({-5, -4, -3}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({6, 7, 9}, pros::MotorGearset::blue);
 pros::Motor intake(1, pros::MotorGearset::blue);
-pros::Motor hood(2, pros::MotorGearset::blue);
+pros::Motor hood(15, pros::MotorGearset::blue);
 pros::adi::Pneumatics descore('B', false);
 pros::adi::Pneumatics odomUp('C', true);
 pros::adi::Pneumatics odom2Up('G', true);
@@ -244,10 +244,12 @@ void autonomous() {
   chassis.moveToPoint(0,13,5000,{.forwards=true,.maxSpeed=80},false);
   chassis.turnToPoint(-12,25,400,{.forwards=true});
   intake.move_voltage(-11000);
+  hood.move_voltage(11000);
   chassis.moveToPoint(-12,25,1000,{.forwards=true,.maxSpeed=60},false);
   //move to midgoal
   chassis.turnToPoint(6,41,1000,{.forwards=false});
   chassis.moveToPoint(6,41,5000,{.forwards=false,.maxSpeed=40}, true);
+  hood.move_voltage(11000);
   pros::delay(500);
   intake.move_voltage(11000);
   pros::delay(200);
@@ -255,7 +257,7 @@ void autonomous() {
   intake.move_voltage(0);
   pros::delay(300);
   intake.move_voltage(-9000);
-  pros::delay(1500);
+  pros::delay(1200);
   //move to matchload 
   chassis.moveToPoint(-37,2,3000,{.forwards=true,.maxSpeed=80},false);
   intake.move_voltage(-11000);
@@ -278,7 +280,7 @@ void autonomous() {
   chassis.turnToPoint(-35,100,1000,{.forwards=false});
   chassis.moveToPoint(-35,100,1000,{.forwards=false,.maxSpeed=80},false);
   chassis.turnToPoint(-35,10,1000,{.forwards=false});
-  chassis.moveToPoint(-35,50,1500,{.forwards=false,.maxSpeed=60},false);
+  chassis.moveToPoint(-35,50,1100,{.forwards=false,.maxSpeed=65},false);
   pros::delay(400);
   hood.move(-11000);
   pros::delay(1700);  
@@ -304,42 +306,105 @@ void autonomous() {
  //move to park zone
   chassis.turnToPoint(-2,108,1000,{.forwards=true});
   hood.move_voltage(3000);
-  chassis.moveToPoint(-2,108,2700,{.forwards=true,.maxSpeed=80},false);
+  chassis.moveToPoint(-2,108,1500,{.forwards=true,.maxSpeed=80},false);
   //align to park
-  chassis.turnToPoint(30,108,1000,{.forwards=true});
+  chassis.turnToPoint(30,108,500,{.forwards=true});
   odomUp.set_value(true);
   pros::delay(1000);
   //cross park
-  chassis.moveToPoint(30,110,1000,{.forwards=true},false);
-  chassis.moveToPoint(30,110,1800,{.forwards=true,.maxSpeed=60},false);
+  chassis.moveToPoint(25,110,1000,{.forwards=true},false);
+  //dont change time out
+  chassis.moveToPoint(25,110,1600,{.forwards=true,.maxSpeed=60},false);
   pros::delay(1500);
   //reset on park
   odomUp.set_value(false);
   chassis.setPose(-10,107,90);
   pros::delay(1000);
   chassis.turnToPoint(-60,115,2000,{.forwards=false,.maxSpeed=80},false);
-  chassis.moveToPoint(-60,115,2000,{.forwards=false,.maxSpeed=55},false);
+  chassis.moveToPoint(-60,115,1700,{.forwards=false,.maxSpeed=45},false);
   chassis.setPose(-10,107,90);
   chassis.moveToPoint(10,110,1500,{.forwards=true,.maxSpeed=60},false);
   //move to midgoal
   chassis.moveToPoint(-5,107,2000,{.forwards=false,.maxSpeed=80},false);
-  chassis.turnToPoint(-5,68,1000,{.forwards=true},false);
-  chassis.moveToPoint(-5,68,2000,{.forwards=true,.maxSpeed=80},true);
-  scraper.toggle();
+  chassis.turnToPoint(-5,70,1000,{.forwards=true},false);
+  chassis.moveToPoint(-5,70,2000,{.forwards=true,.maxSpeed=80});
   //align to mid goal
-  chassis.turnToPoint(-15,52,1000,{.forwards=false});
-  chassis.moveToPoint(-15,52,1000,{.forwards=false,.maxSpeed=40}, true);
-  pros::delay(500);
-  intake.move_voltage(11000);
+  chassis.turnToPoint(-20,52,1000,{.forwards=false});
+  chassis.moveToPoint(-20,52,1000,{.forwards=false,.maxSpeed=40}, true);
   pros::delay(200);
+  scraper.toggle();
+  hood.move_voltage(5000);
+  pros::delay(300);
+  intake.move_voltage(11000);
   midgoal.set_value(true);
+  pros::delay(300);
+  intake.move_voltage(-9000);
+  pros::delay(1100);
   intake.move_voltage(0);
   pros::delay(300);
   intake.move_voltage(-9000);
-  pros::delay(1000);
+  pros::delay(1100);
   //move to third matchload
-  chassis.turnToPoint(30,90,1000,{.forwards=true});
-  chassis.moveToPoint(30,90,1000,{.forwards=true,.maxSpeed=80},false);
+  chassis.turnToPoint(25,96,2000,{.forwards=true});
+  chassis.moveToPoint(25,96,2000,{.forwards=true,.maxSpeed=80},false);
+  chassis.turnToPoint(25,110,1000,{.forwards=true});
+  intake.move_voltage(-11000);
+  midgoal.set_value(false);
+  chassis.moveToPoint(25,110,2300,{.forwards=true,.maxSpeed=50},false);
+  //reset on long goal
+  chassis.moveToPoint(23,-100,1500,{.forwards=false,.maxSpeed=50},false);
+  pros::delay(500);
+  chassis.setPose(25, 50, 0);
+  pros::delay(500);
+  scraper.toggle();
+  descore.toggle();
+  //move to side of long goal
+  chassis.moveToPoint(25, 70, 1000, {.forwards=true,.maxSpeed=80}, false);
+  chassis.turnToPoint(39, 55, 1000, {.forwards=false,.maxSpeed=80}, false);
+  chassis.moveToPoint(39, 55, 1000, {.forwards=false,.maxSpeed=80}, false);
+  //align to long goal
+  chassis.turnToPoint(39, -20, 1000, {.forwards=false}, false);
+  chassis.moveToPoint(39, -20, 2000, {.forwards=false,.maxSpeed=80}, false);
+  chassis.turnToPoint(26, -30, 1000, {.forwards=false}, false);
+  chassis.moveToPoint(26, -30, 1000, {.forwards=false,.maxSpeed=60}, false);
+  //move to goal and score
+  chassis.turnToPoint(26, 10, 1000, {.forwards=false}, false);
+  chassis.moveToPoint(26, 10, 1000, {.forwards=false,.maxSpeed=80}, false);
+  pros::delay(400);
+  hood.move(-11000);
+  chassis.setPose(25, 10, 180);
+  pros::delay(1700);  
+  //matchload
+  scraper.toggle();
+  chassis.moveToPoint(25, -50, 2700, {.forwards=true,.maxSpeed=50}, false);
+  pros::delay(400);
+  scraper.toggle();
+  //score second time
+  chassis.moveToPoint(25, 20, 1500, {.forwards=false,.maxSpeed=70}, false);
+  pros::delay(400);
+  hood.move(-11000);
+  chassis.setPose(25, 10, 180);
+  pros::delay(1700);  
+  //move to park
+  chassis.moveToPoint(25, -10, 1000, {.forwards=true,.maxSpeed=80}, false);
+  chassis.turnToPoint(0, -26, 1000, {.forwards=true}, false);
+  chassis.moveToPoint(0, -26, 1000, {.forwards=true,.maxSpeed=80}, false);
+  chassis.turnToPoint(-24, -26, 1000, {.forwards=true}, false);
+  scraper.toggle();
+  odomUp.set_value(true);
+  //cross park
+  chassis.moveToPoint(-30,-28,1000,{.forwards=true},true);
+  pros::delay(500);
+
+
+
+
+
+
+
+
+
+
 
   /*
   intake.move_voltage(11000);
