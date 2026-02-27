@@ -193,7 +193,9 @@ void autonomous() {
   hood.move_voltage(-11000);
 */
 
-  //Counter AWP 
+/* Aman Comments starts
+
+  //Counter AWP
   //grab preload
   chassis.setPose(0,0,270);
   pros::delay(200);
@@ -254,6 +256,8 @@ void autonomous() {
   pros::delay(300);
   intake.move_voltage(-11000);
   
+      Aman commented ends */
+
   /*
   //4+3 Right Side
   chassis.setPose(0, 0, 0);
@@ -338,7 +342,8 @@ void autonomous() {
   chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 */
 /*
-//96 point skills
+//96 point skills */
+
   //grab first pile
   odomUp.set_value(false);
   chassis.setPose(0, 0, 0);
@@ -472,7 +477,7 @@ void autonomous() {
   chassis.moveToPoint(25, 50, 1000, {.forwards=false,.maxSpeed=70}, false);
   pros::delay(200);
   hood.move(-11000);
-  chassis.setPose(25, 10, 180);
+  //chassis.setPose(25, 10, 180);
   pros::delay(1700);  
   //move to park
   chassis.turnToPoint(0, -27, 500, {.forwards=true}, false);
@@ -482,7 +487,9 @@ void autonomous() {
   //cross park
   chassis.moveToPoint(-24,-34,2000,{.forwards=true},true);
   scraper.toggle();
-*/
+  pros::delay(1000);
+  scraper.toggle();
+/* 96points skill ends */
 
   /*
   intake.move_voltage(11000);
